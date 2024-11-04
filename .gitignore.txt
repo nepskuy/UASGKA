@@ -1,0 +1,17 @@
+[Bb]uild/
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Uu]serSettings/
+*.csproj
+*.sln
+*.unityproj
+*.tmp
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+.vs/
+.idea/
