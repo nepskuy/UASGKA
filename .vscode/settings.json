@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CarCrashSimulator.sln"
+    "dotnet.defaultSolution": "UASGKA.sln"
 }
