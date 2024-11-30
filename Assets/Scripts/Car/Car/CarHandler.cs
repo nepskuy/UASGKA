@@ -9,12 +9,13 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField]
     Transform gameModel;
-    // Start is called before the first frame update
-   
 
-   //max values
-   float maxSteerVelocity = 2;
-   float maxForwardVelocity = 30;
+    [SerializeField]
+    MeshRenderer[] carMeshesRender;
+
+    //max values
+    float maxSteerVelocity = 2;
+    float maxForwardVelocity = 30;
 
     float accelerationMultiplier = 3;
     float breaksMultiplier = 15;
@@ -22,9 +23,14 @@ public class CarHandler : MonoBehaviour
 
     Vector2 input = Vector2.zero;
 
+    //Emissive Properties
+    int _emissionColor = Shader.PropertyToID("_EmissionColor");
+    Color emissiveColor = Color.white;
+    float emissiveColorMultiplier = 0f;
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -32,6 +38,28 @@ public class CarHandler : MonoBehaviour
     {
         //Rotate car model when "turning"
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
+
+        if (carMeshesRender != null)
+        {
+            float desiredCarEmissiveColorMultiplier = 0f;
+
+            if (input.y < 0)
+                desiredCarEmissiveColorMultiplier = 4.0f;
+
+            emissiveColorMultiplier = Mathf.Lerp(emissiveColorMultiplier, desiredCarEmissiveColorMultiplier, Time.deltaTime * 4);
+
+            foreach (var carMesh in carMeshesRender)
+            {
+                carMesh.material.SetColor(_emissionColor, emissiveColor * emissiveColorMultiplier);
+            }
+        }
+
+        // Atur emissive color lampu belakang berdasarkan input rem
+        Color brakeLightColor = input.y < 0 ? Color.red : Color.black;
+        foreach (var carMesh in carMeshesRender)
+        {
+            carMesh.material.SetColor(_emissionColor, brakeLightColor);
+        }
     }
 
     private void FixedUpdate()
@@ -48,7 +76,7 @@ public class CarHandler : MonoBehaviour
 
         //Force the car not to go backwards
         if (rb.velocity.z <= 0)
-        rb.velocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
     }
 
     void Accelerate()
@@ -66,10 +94,9 @@ public class CarHandler : MonoBehaviour
     {
         if (rb.velocity.z <= 0) //Cuman boleh maju gabole mundur
             return;
-        
+
         rb.AddForce(rb.transform.forward * 10 * breaksMultiplier * input.y);
     }
-
 
     void Steer()
     {
@@ -82,26 +109,24 @@ public class CarHandler : MonoBehaviour
             rb.AddForce(rb.transform.right * steeringMultiplier * input.x * speedBaseSteerLimit);
 
             //Normalize the X Velocity
-            float normalizedX = rb.velocity.x /maxSteerVelocity;
-            
-            //Ensure that we dont allow it to get bigger than 1 in magnitued
-            normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f) ;
+            float normalizedX = rb.velocity.x / maxSteerVelocity;
+
+            //Ensure that we dont allow it to get bigger than 1 in magnitude
+            normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f);
 
             //Make sure we stay within the turn speed limit
-            rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);  
-            }
-            else
-            {
-                //Auto center car
-                rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 3);
-            }
+            rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);
+        }
+        else
+        {
+            //Auto center car
+            rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 3);
+        }
     }
 
     public void SetInput(Vector2 inputVector)
     {
         inputVector.Normalize();
-
         input = inputVector;
-
     }
 }
