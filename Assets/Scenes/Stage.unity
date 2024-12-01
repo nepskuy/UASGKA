@@ -448,15 +448,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52cfcf488effca4888a0f85c69f02e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fc559e7651ab724fb661802eeea3a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sectionsPrefabs:
+  - {fileID: 8677773607735088500, guid: 93a75318ecbc3b24b898e8cfac50e689, type: 3}
   - {fileID: 2939161341618349260, guid: 3e64cb502d161544781a8cdf2e1e7a18, type: 3}
   - {fileID: 3712877103935351083, guid: 5df0f3000c0efb2478ee290d01ebd251, type: 3}
   - {fileID: 1060017847249733241, guid: 564e2adec855fd14191e37ae2ae7566f, type: 3}
   - {fileID: 1060017847249733241, guid: c9fc5e558d1d3a943aed57eeff7d153d, type: 3}
-  - {fileID: 320710393750055526, guid: 538ec3287b6bf5543bcb5c9008b74ae8, type: 3}
 --- !u!1 &330861205
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,7 +958,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1921746072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0bf2234ddcfa1142854b8826bb97141, type: 3}
+  m_Script: {fileID: 11500000, guid: 386c9934d1453614b9a8825c221cf4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   carHandler: {fileID: 1921746074}
@@ -978,9 +978,6 @@ MonoBehaviour:
   gameModel: {fileID: 1921746076}
   carMeshesRender:
   - {fileID: 1304441713}
-  initialMaxVelocity: 10
-  finalMaxVelocity: 50
-  velocityIncreaseRate: 0.1
 --- !u!54 &1921746075
 Rigidbody:
   m_ObjectHideFlags: 0
