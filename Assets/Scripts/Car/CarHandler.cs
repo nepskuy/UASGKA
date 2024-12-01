@@ -13,19 +13,6 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     MeshRenderer[] carMeshesRender;
 
-    [SerializeField]
-    float initialMaxVelocity = 0.001f; // Kecepatan awal
-
-    [SerializeField]
-    float finalMaxVelocity = 50f; // Kecepatan maksimum akhir
-
-    [SerializeField]
-    float velocityIncreaseRate = 0.01f; // Laju peningkatan kecepatan per detik
-
-    float currentMaxVelocity; // Kecepatan maksimum saat ini
-    float distanceTraveled = 0f; // Jarak yang telah ditempuh
-    Vector3 lastPosition;
-
     //max values
     float maxSteerVelocity = 2;
     float maxForwardVelocity = 30;
@@ -43,8 +30,7 @@ public class CarHandler : MonoBehaviour
 
     void Start()
     {
-        currentMaxVelocity = initialMaxVelocity;
-        lastPosition = transform.position;
+
     }
 
     // Update is called once per frame
@@ -78,77 +64,39 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-    // Hitung jarak yang telah ditempuh
-    distanceTraveled += Vector3.Distance(transform.position, lastPosition);
-    lastPosition = transform.position;
+        if (input.y > 0) //Acceleration
+            Accelerate();
+        else
+            rb.drag = 0.2f;
 
-    if (rb.velocity.z < 0.5f)
-    {
-        rb.drag = Mathf.Lerp(rb.drag, 5f, Time.fixedDeltaTime * 2); // Tambahkan drag untuk memperlambat mobil
-    }
-    else
-    {
-        rb.drag = Mathf.Lerp(rb.drag, 0f, Time.fixedDeltaTime * 2); // Kembalikan drag ke nilai normal jika sudah kecepatan cukup
-    }
+        if (input.y < 0) //Breaks
+            Brake();
 
-    // Tingkatkan kecepatan maksimum secara bertahap
-    currentMaxVelocity = Mathf.Min(currentMaxVelocity + velocityIncreaseRate * Time.fixedDeltaTime, finalMaxVelocity);
+        Steer();
 
-    if (input.y > 0) // Akselerasi
-    {
-        Accelerate();
+        //Force the car not to go backwards
+        if (rb.velocity.z <= 0)
+            rb.velocity = Vector3.zero;
     }
-    else if (input.y < 0) // Rem
-    {
-        Brake();
-    }
-    else
-    {
-        // Perlambatan secara bertahap
-        rb.drag = Mathf.Lerp(rb.drag, 1.5f, Time.fixedDeltaTime * 3);
-        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(rb.velocity.x, rb.velocity.y, 0), Time.fixedDeltaTime * 0.3f);
-    }
-
-    Steer();
-
-    // Force the car not to go backwards
-    if (rb.velocity.z <= 0)
-    {
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-    }
-}
 
     void Accelerate()
     {
-    rb.drag = 0;
+        rb.drag = 0;
 
-    //Stay within the speed limit
-    if (rb.velocity.z >= currentMaxVelocity)
-        return;
+        //Stay within the speed limit
+        if (rb.velocity.z >= maxForwardVelocity)
+            return;
 
-    // Kurangi daya dorong di awal
-    float accelerationFactor = Mathf.Lerp(1f, 10f, currentMaxVelocity / finalMaxVelocity); 
-
-    // Menambahkan gaya untuk akselerasi
-    rb.AddForce(rb.transform.forward * accelerationFactor * accelerationMultiplier * input.y);
-}
+        rb.AddForce(rb.transform.forward * 10 * accelerationMultiplier * input.y);
+    }
 
     void Brake()
     {
         if (rb.velocity.z <= 0) //Cuman boleh maju gabole mundur
+            return;
 
-        {            
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        return;
-        }
-
-        // Terapkan drag untuk memperlambat mobil secara bertahap
-    rb.drag = Mathf.Lerp(rb.drag, 3f, Time.fixedDeltaTime * 2); // Atur drag hingga nilai maksimum
-
-    // Kurangi sedikit kecepatan untuk membuat perlambatan terasa halus
-    rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(rb.velocity.x, rb.velocity.y, 0), Time.fixedDeltaTime * 0.5f);
-        
-}
+        rb.AddForce(rb.transform.forward * 10 * breaksMultiplier * input.y);
+    }
 
     void Steer()
     {
