@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class CarHandler : MonoBehaviour
@@ -12,6 +13,9 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField]
     MeshRenderer[] carMeshesRender;
+
+    [SerializeField]
+    ExplodeHandler explodeHandler;
 
     //max values
     float maxSteerVelocity = 2;
@@ -27,6 +31,9 @@ public class CarHandler : MonoBehaviour
     int _emissionColor = Shader.PropertyToID("_EmissionColor");
     Color emissiveColor = Color.white;
     float emissiveColorMultiplier = 0f;
+
+    // Explode state
+    bool isExploded = false;
 
     void Start()
     {
@@ -64,6 +71,20 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        //is exploded
+        if (isExploded)
+        {
+            //Apply Drag
+            rb.drag = rb.velocity.z * 0.1f;
+            rb.drag = Mathf.Clamp(rb.drag, 1.5f, 10);
+
+            //Move towards after a the car has exploded
+            rb.MovePosition(Vector3.Lerp(transform.position, new Vector3(0, 0, transform.position.z), Time.deltaTime * 0.5f));
+
+            return;
+        }
+
         if (input.y > 0) //Acceleration
             Accelerate();
         else
@@ -128,5 +149,15 @@ public class CarHandler : MonoBehaviour
     {
         inputVector.Normalize();
         input = inputVector;
+    }
+
+    private void OnCollisionEnter(Collision collision) 
+    {
+        Debug.Log($"Hit {collision.collider.name}");
+
+        Vector3 velocity = rb.velocity;
+        explodeHandler.Explode(velocity * 45);
+
+        isExploded = true;
     }
 }
