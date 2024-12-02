@@ -151,13 +151,13 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
-    private void OnCollisionEnter(Collision collision) 
-    {
-        Debug.Log($"Hit {collision.collider.name}");
+//     private void OnCollisionEnter(Collision collision) 
+//     {
+//         Debug.Log($"Hit {collision.collider.name}");
 
-        Vector3 velocity = rb.velocity;
-        explodeHandler.Explode(velocity * 45);
+//         Vector3 velocity = rb.velocity;
+//         explodeHandler.Explode(velocity * 45);
 
-        isExploded = true;
-    }
+//         isExploded = true;
+//     }
 }

@@ -20,7 +20,7 @@ public class ExplodeHandler : MonoBehaviour
 
     private void Start() 
     {
-        // Explode(Vector3.forward);
+        Explode(Vector3.forward);
     }
 
     private void Explode(Vector3 externalForce)
