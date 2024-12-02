@@ -586,7 +586,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 739236974}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -641,7 +641,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832550033}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -833,7 +833,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915994677}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1049,7 +1049,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085781474}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1104,7 +1104,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219444478}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1159,7 +1159,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1421359803}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1332,6 +1332,12 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8998900221243770700, guid: 134b7df009b54184884daf3bd5a8fa24, type: 3}
+--- !u!23 &1612278539 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5479005057541673912, guid: 134b7df009b54184884daf3bd5a8fa24,
+    type: 3}
+  m_PrefabInstance: {fileID: 985243426}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1621635848 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 134b7df009b54184884daf3bd5a8fa24,
@@ -1351,7 +1357,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680256548}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1406,7 +1412,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1902001657}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d6ba5427d379adf4c870b6198ee0758e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1496,8 +1502,8 @@ MonoBehaviour:
   rb: {fileID: 1921746075}
   gameModel: {fileID: 1921746076}
   carMeshesRender:
-  - {fileID: 0}
-  explodeHandler: {fileID: 0}
+  - {fileID: 1612278539}
+  explodeHandler: {fileID: 1921746077}
 --- !u!54 &1921746075
 Rigidbody:
   m_ObjectHideFlags: 0

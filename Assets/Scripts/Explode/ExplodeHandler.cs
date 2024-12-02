@@ -20,10 +20,11 @@ public class ExplodeHandler : MonoBehaviour
 
     private void Start() 
     {
-        Explode(Vector3.forward);
+        // Explode(Vector3.forward);
+        //  This Code Is For Debugging
     }
 
-    private void Explode(Vector3 externalForce)
+    public void Explode(Vector3 externalForce)
     {
         originalObject.SetActive(false);
 

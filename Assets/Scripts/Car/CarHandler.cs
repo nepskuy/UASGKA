@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CarHandler : MonoBehaviour
@@ -43,6 +44,10 @@ public class CarHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(isExploded)
+        return;
+
         //Rotate car model when "turning"
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
 
@@ -151,13 +156,36 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
-//     private void OnCollisionEnter(Collision collision) 
-//     {
-//         Debug.Log($"Hit {collision.collider.name}");
+    IEnumerator SlowDownTimeCO()
+    {
+        while (Time.timeScale > 0.2f)
+        {
+            Time.timeScale -= Time.deltaTime * 2 ;
 
-//         Vector3 velocity = rb.velocity;
-//         explodeHandler.Explode(velocity * 45);
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
 
-//         isExploded = true;
-//     }
+        while (Time.timeScale <= 1.0f)
+        {
+            Time.timeScale += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
+    }
+
+//  Events
+    private void OnCollisionEnter(Collision collision)
+    {
+        UnityEngine.Debug.Log($"Hit {collision.collider.name}");
+
+        Vector3 velocity = rb.velocity;
+        explodeHandler.Explode(velocity * 45);
+
+        isExploded = true;
+
+        StartCoroutine(SlowDownTimeCO());
+    }
 }
