@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CarHandler : MonoBehaviour
@@ -12,6 +14,9 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField]
     MeshRenderer[] carMeshesRender;
+
+    [SerializeField]
+    ExplodeHandler explodeHandler;
 
     //max values
     float maxSteerVelocity = 2;
@@ -28,6 +33,9 @@ public class CarHandler : MonoBehaviour
     Color emissiveColor = Color.white;
     float emissiveColorMultiplier = 0f;
 
+    // Explode state
+    bool isExploded = false;
+
     void Start()
     {
 
@@ -36,6 +44,10 @@ public class CarHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(isExploded)
+        return;
+
         //Rotate car model when "turning"
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
 
@@ -64,6 +76,20 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        //is exploded
+        if (isExploded)
+        {
+            //Apply Drag
+            rb.drag = rb.velocity.z * 0.1f;
+            rb.drag = Mathf.Clamp(rb.drag, 1.5f, 10);
+
+            //Move towards after a the car has exploded
+            rb.MovePosition(Vector3.Lerp(transform.position, new Vector3(0, 0, transform.position.z), Time.deltaTime * 0.5f));
+
+            return;
+        }
+
         if (input.y > 0) //Acceleration
             Accelerate();
         else
@@ -128,5 +154,38 @@ public class CarHandler : MonoBehaviour
     {
         inputVector.Normalize();
         input = inputVector;
+    }
+
+    IEnumerator SlowDownTimeCO()
+    {
+        while (Time.timeScale > 0.2f)
+        {
+            Time.timeScale -= Time.deltaTime * 2 ;
+
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        while (Time.timeScale <= 1.0f)
+        {
+            Time.timeScale += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
+    }
+
+//  Events
+    private void OnCollisionEnter(Collision collision)
+    {
+        UnityEngine.Debug.Log($"Hit {collision.collider.name}");
+
+        Vector3 velocity = rb.velocity;
+        explodeHandler.Explode(velocity * 45);
+
+        isExploded = true;
+
+        StartCoroutine(SlowDownTimeCO());
     }
 }
