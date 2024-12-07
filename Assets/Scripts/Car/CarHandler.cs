@@ -31,7 +31,12 @@ public class CarHandler : MonoBehaviour
     // Kondisi permainan
     bool isExploded = false;
     bool isGameStarted = false; // Menunggu pemain menekan spasi
-
+        
+    public void StartGame()
+    {
+        isGameStarted = true; // Mulai permainan
+        // Kamu bisa tambahkan animasi atau efek lainnya jika perlu
+    }
     void Update()
     {
         // Jika permainan belum dimulai, cek input spasi
