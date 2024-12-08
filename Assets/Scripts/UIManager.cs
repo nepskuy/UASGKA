@@ -13,8 +13,15 @@ public class UIManager : MonoBehaviour
     public CarScoreManager carScoreManager;
     public GameObject playerCar;
     public Transform startPosition;
+    public GameObject howToPlayCanvas;
+
 
     private bool isPaused = false;
+    
+    private void Start()
+{
+    howToPlayCanvas.SetActive(false); // Pastikan canvas HowToPlay tidak aktif di awal
+}
 
     // Fungsi untuk mulai permainan
     public void StartGame()
@@ -65,8 +72,34 @@ public class UIManager : MonoBehaviour
     // Fungsi untuk menampilkan petunjuk cara bermain
     public void ShowHowToPlay()
     {
+        // Menonaktifkan canvas lainnya dan mengaktifkan HowToPlayCanvas
+    homeMenuCanvas.SetActive(false);
+    menuCanvas.SetActive(false);
+    howToPlayCanvas.SetActive(true);
+
         Debug.Log("Show How To Play...");
     }
+
+   public void BackFromHowToPlay()
+{
+    // Menonaktifkan HowToPlayCanvas dan mengaktifkan MenuCanvas
+    howToPlayCanvas.SetActive(false);
+    menuCanvas.SetActive(true);
+
+    // Menghentikan waktu permainan (Pause)
+    Time.timeScale = 0;
+    isPaused = true;
+
+    // Menghentikan semua animasi
+    Animator[] animators = FindObjectsOfType<Animator>();
+    foreach (Animator animator in animators)
+    {
+        animator.speed = 0;
+    }
+
+    Debug.Log("Returned from How To Play and opened Menu...");
+}
+
 
     // Fungsi untuk restart permainan
     public void RestartGame()
@@ -110,4 +143,19 @@ public class UIManager : MonoBehaviour
 
         Debug.Log("Scene loaded and game restarted...");
     }
+
+        // Fungsi untuk keluar dari aplikasi
+    public void ExitGame()
+    {
+        Debug.Log("Exiting the game...");
+
+        // Jika sedang di editor, tidak bisa keluar aplikasi, maka tampilkan log
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        // Jika di build aplikasi, keluar dari aplikasi
+        Application.Quit();
+    #endif
+    }
+
 }
