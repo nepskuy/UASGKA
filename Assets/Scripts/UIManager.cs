@@ -1,111 +1,113 @@
+using System.Collections; // Tambahkan ini
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     // Referensi ke canvas
     public GameObject scoreCanvas;
-    public GameObject menuCanvas;   // Menu canvas yang berisi tombol restart, how to play, dan exit
+    public GameObject menuCanvas;
     public GameObject homeMenuCanvas;
 
     // Referensi untuk skor dan pemain
-    public CarScoreManager carScoreManager; // Script untuk mengatur skor
-    public GameObject playerCar;     // Objek mobil pemain
-    public Transform startPosition;  // Posisi awal mobil (drag dari editor)
+    public CarScoreManager carScoreManager;
+    public GameObject playerCar;
+    public Transform startPosition;
 
-    private bool isPaused = false; // Status apakah game sedang pause atau tidak
+    private bool isPaused = false;
 
+    // Fungsi untuk mulai permainan
     public void StartGame()
     {
-        // Sembunyikan Home Menu Canvas
         homeMenuCanvas.SetActive(false);
-
-        // Tampilkan Gameplay Canvas atau Score Canvas, tergantung pada struktur game kamu
-        scoreCanvas.SetActive(true); // Misalnya kamu ingin menampilkan ScoreCanvas sebagai permulaan permainan
-
-        // Mulai permainan, bisa menambahkan logika inisialisasi permainan di sini
+        scoreCanvas.SetActive(true); 
     }
 
-    // Fungsi untuk pergi ke MenuCanvas dari ScoreCanvas (dan pause game)
+    // Fungsi untuk kembali ke menu
     public void GoToMenu()
     {
-        scoreCanvas.SetActive(false);  // Sembunyikan Score Canvas
-        menuCanvas.SetActive(true);    // Tampilkan Menu Canvas
-
-        // Pause game dengan menghentikan waktu
-        Time.timeScale = 0; // Menghentikan semua pergerakan di game
+        scoreCanvas.SetActive(false); 
+        menuCanvas.SetActive(true);
+        Time.timeScale = 0;
         isPaused = true;
+
+        Animator[] animators = FindObjectsOfType<Animator>();
+        foreach (Animator animator in animators)
+        {
+            animator.speed = 0; 
+        }
     }
 
-    // Fungsi untuk melanjutkan permainan (resume)
+    // Fungsi untuk melanjutkan permainan
     public void ResumeGame()
     {
-        menuCanvas.SetActive(false);   // Sembunyikan Menu Canvas
-        scoreCanvas.SetActive(true);  // Kembali ke Score Canvas (atau gameplay canvas)
-
-        // Lanjutkan game dengan mengembalikan waktu
-        Time.timeScale = 1; // Memulai kembali semua pergerakan
+        menuCanvas.SetActive(false);
+        scoreCanvas.SetActive(true);  
+        Time.timeScale = 1;
         isPaused = false;
+
+        Animator[] animators = FindObjectsOfType<Animator>();
+        foreach (Animator animator in animators)
+        {
+            animator.speed = 1;
+        }
     }
 
-    // Fungsi untuk kembali ke HomeMenu dari MenuCanvas
+    // Fungsi untuk kembali ke menu utama
     public void BackToHomeMenu()
     {
-        menuCanvas.SetActive(false);    // Sembunyikan Menu Canvas
-        homeMenuCanvas.SetActive(true); // Tampilkan Home Menu Canvas
-
-        // Pastikan waktu tetap berjalan normal
+        menuCanvas.SetActive(false);
+        homeMenuCanvas.SetActive(true);
         Time.timeScale = 1;
         isPaused = false;
     }
 
-    // Fungsi untuk menampilkan layar "How To Play"
+    // Fungsi untuk menampilkan petunjuk cara bermain
     public void ShowHowToPlay()
     {
         Debug.Log("Show How To Play...");
     }
 
-    // Fungsi untuk restart game
+    // Fungsi untuk restart permainan
     public void RestartGame()
     {
-        // Aktifkan kembali ScoreCanvas
-        scoreCanvas.SetActive(true);
-
-        // Sembunyikan MenuCanvas
-        menuCanvas.SetActive(false);
-
-        // Reset status pause
+        // Reset Time.timeScale ke 1 agar permainan dapat melanjutkan
         Time.timeScale = 1;
-        isPaused = false;
 
-        // Reset skor
+        // Restart scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // Menunggu frame pertama setelah scene dimuat
+        StartCoroutine(WaitForSceneLoad());
+    }
+
+    // Fungsi untuk menunggu scene selesai dimuat dan menginisialisasi ulang
+    private IEnumerator WaitForSceneLoad()
+    {
+        // Tunggu sampai scene selesai dimuat
+        yield return new WaitForEndOfFrame();
+
+        // Pastikan objek player dan posisi awal terinisialisasi dengan benar
+        if (playerCar != null && startPosition != null)
+        {
+            playerCar.transform.position = startPosition.position;
+            playerCar.transform.rotation = startPosition.rotation;
+
+            // Reset kecepatan mobil
+            Rigidbody rb = playerCar.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+        }
+
+        // Reset skor jika ada
         if (carScoreManager != null)
         {
             carScoreManager.ResetScore();
         }
 
-        // Reset posisi mobil
-        if (playerCar != null && startPosition != null)
-        {
-            playerCar.transform.position = startPosition.position; // Atur posisi awal
-            playerCar.transform.rotation = startPosition.rotation; // Atur rotasi awal
-        }
-
-        Debug.Log("Game restarted...");
-    }
-
-    private void Update()
-    {
-        // Toggle pause/resume saat pemain menekan Esc
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                GoToMenu();
-            }
-        }
+        Debug.Log("Scene loaded and game restarted...");
     }
 }
