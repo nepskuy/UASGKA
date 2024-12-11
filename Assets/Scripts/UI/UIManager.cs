@@ -15,13 +15,15 @@ public class UIManager : MonoBehaviour
     public Transform startPosition;
     public GameObject howToPlayCanvas;
 
+    // Referensi AudioSource untuk suara mesin mobil
+    public AudioSource carEngineAudioSource; // Pastikan ini dihubungkan di Inspector
 
     private bool isPaused = false;
-    
+
     private void Start()
-{
-    howToPlayCanvas.SetActive(false); // Pastikan canvas HowToPlay tidak aktif di awal
-}
+    {
+        howToPlayCanvas.SetActive(false); // Pastikan canvas HowToPlay tidak aktif di awal
+    }
 
     // Fungsi untuk mulai permainan
     public void StartGame()
@@ -33,7 +35,19 @@ public class UIManager : MonoBehaviour
     // Fungsi untuk kembali ke menu
     public void GoToMenu()
     {
-        scoreCanvas.SetActive(false); 
+            // Matikan suara mesin mobil sebelum mengubah tampilan menu
+        if (carEngineAudioSource != null)
+        {
+            Debug.Log("Pausing engine sound...");  // Debugging untuk memastikan suara dipause
+            carEngineAudioSource.Pause(); // Pause suara mesin
+        }
+        else
+        {
+            Debug.Log("carEngineAudioSource is null!");  // Jika carEngineAudioSource tidak terhubung
+        }
+
+        // Lanjutkan dengan mengubah tampilan menu
+        scoreCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         Time.timeScale = 0;
         isPaused = true;
@@ -41,7 +55,7 @@ public class UIManager : MonoBehaviour
         Animator[] animators = FindObjectsOfType<Animator>();
         foreach (Animator animator in animators)
         {
-            animator.speed = 0; 
+            animator.speed = 0; // Hentikan animasi
         }
     }
 
@@ -58,6 +72,12 @@ public class UIManager : MonoBehaviour
         {
             animator.speed = 1;
         }
+
+        // Unpause suara mesin setelah resume
+        if (carEngineAudioSource != null)
+        {
+            carEngineAudioSource.UnPause(); // Unpause suara mesin
+        }
     }
 
     // Fungsi untuk kembali ke menu utama
@@ -73,33 +93,32 @@ public class UIManager : MonoBehaviour
     public void ShowHowToPlay()
     {
         // Menonaktifkan canvas lainnya dan mengaktifkan HowToPlayCanvas
-    homeMenuCanvas.SetActive(false);
-    menuCanvas.SetActive(false);
-    howToPlayCanvas.SetActive(true);
+        homeMenuCanvas.SetActive(false);
+        menuCanvas.SetActive(false);
+        howToPlayCanvas.SetActive(true);
 
         Debug.Log("Show How To Play...");
     }
 
-   public void BackFromHowToPlay()
-{
-    // Menonaktifkan HowToPlayCanvas dan mengaktifkan MenuCanvas
-    howToPlayCanvas.SetActive(false);
-    menuCanvas.SetActive(true);
-
-    // Menghentikan waktu permainan (Pause)
-    Time.timeScale = 0;
-    isPaused = true;
-
-    // Menghentikan semua animasi
-    Animator[] animators = FindObjectsOfType<Animator>();
-    foreach (Animator animator in animators)
+    public void BackFromHowToPlay()
     {
-        animator.speed = 0;
+        // Menonaktifkan HowToPlayCanvas dan mengaktifkan MenuCanvas
+        howToPlayCanvas.SetActive(false);
+        menuCanvas.SetActive(true);
+
+        // Menghentikan waktu permainan (Pause)
+        Time.timeScale = 0;
+        isPaused = true;
+
+        // Menghentikan semua animasi
+        Animator[] animators = FindObjectsOfType<Animator>();
+        foreach (Animator animator in animators)
+        {
+            animator.speed = 0;
+        }
+
+        Debug.Log("Returned from How To Play and opened Menu...");
     }
-
-    Debug.Log("Returned from How To Play and opened Menu...");
-}
-
 
     // Fungsi untuk restart permainan
     public void RestartGame()
@@ -144,18 +163,17 @@ public class UIManager : MonoBehaviour
         Debug.Log("Scene loaded and game restarted...");
     }
 
-        // Fungsi untuk keluar dari aplikasi
+    // Fungsi untuk keluar dari aplikasi
     public void ExitGame()
     {
         Debug.Log("Exiting the game...");
 
         // Jika sedang di editor, tidak bisa keluar aplikasi, maka tampilkan log
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        // Jika di build aplikasi, keluar dari aplikasi
-        Application.Quit();
-    #endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Jika di build aplikasi, keluar dari aplikasi
+            Application.Quit();
+        #endif
     }
-
 }
