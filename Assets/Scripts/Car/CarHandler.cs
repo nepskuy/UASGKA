@@ -4,6 +4,9 @@ using UnityEngine;
 public class CarHandler : MonoBehaviour
 {
     [SerializeField]
+    private bool isPlayer = false; // Set to true if this car belongs to the player.
+
+    [SerializeField]
     Rigidbody rb;
 
     [SerializeField]
@@ -15,11 +18,27 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     ExplodeHandler explodeHandler;
 
+    [Header("SFX")]
+    [SerializeField]
+    AudioSource carEngineAS;
+
+    [SerializeField]
+    AnimationCurve carPitchAnimationCurve;
+
+    [SerializeField]
+    AudioSource carSkidAS;
+
+    [SerializeField]
+    AudioSource carCrashAS;
+
+
     // Maksimal nilai
     float maxSteerVelocity = 2f;
     float maxForwardVelocity = 30f;
     float accelerationMultiplier = 0.5f; // Akselerasi bertahap
     float steeringMultiplier = 5f;
+    float carMaxSpeedPercentage = 0;
+
 
     Vector2 input = Vector2.zero;
 
@@ -36,16 +55,18 @@ public class CarHandler : MonoBehaviour
     {
         isGameStarted = true; // Mulai permainan
         // Kamu bisa tambahkan animasi atau efek lainnya jika perlu
+         if (isGameStarted)
+            carEngineAS.Play();
+
     }
     void Update()
     {
-        // Jika permainan belum dimulai, cek input spasi
-        if (!isGameStarted && Input.GetKeyDown(KeyCode.Space))
-        {
-            isGameStarted = true; // Mulai permainan
-        }
 
-        if (isExploded || !isGameStarted) return;
+        if (isExploded)
+        {
+            FadeOutCarAudio();
+            return;
+        }
 
         // Rotate car model saat belok
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
@@ -58,6 +79,8 @@ public class CarHandler : MonoBehaviour
                 carMesh.material.SetColor(_emissionColor, emissiveColor * emissiveColorMultiplier);
             }
         }
+
+        UpdateCarAudio();
     }
 
     private void FixedUpdate()
@@ -109,6 +132,37 @@ public class CarHandler : MonoBehaviour
         }
     }
 
+    void UpdateCarAudio()
+    {
+        if(!isGameStarted)
+            return;
+     carMaxSpeedPercentage = rb.velocity.z / maxForwardVelocity;
+
+     carEngineAS.pitch = carPitchAnimationCurve.Evaluate(carMaxSpeedPercentage);
+
+     if (input.y < 0 && carMaxSpeedPercentage > 0.2f)
+     {
+        if (!carSkidAS.isPlaying)
+            carSkidAS.Play();
+
+        carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 1.0f, Time.deltaTime * 10);
+     }
+        else
+     {
+        carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 30);
+     }
+
+    }
+
+    void FadeOutCarAudio()
+    {
+        if (!isPlayer)
+            return;
+
+        carEngineAS.volume = Mathf.Lerp(carEngineAS.volume, 0, Time.deltaTime * 10);   
+        carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 10);
+    }
+
     public void SetInput(Vector2 inputVector)
     {
         inputVector.Normalize();
@@ -142,6 +196,14 @@ public class CarHandler : MonoBehaviour
         explodeHandler.Explode(velocity * 45);
 
         isExploded = true;
+
+        carCrashAS.volume = carMaxSpeedPercentage;
+        carCrashAS.volume = Mathf.Clamp(carCrashAS.volume, 0.25f, 1.0f);
+
+        carCrashAS.pitch = carMaxSpeedPercentage;
+        carCrashAS.pitch =  Mathf.Clamp(carCrashAS.pitch, 0.3f, 1.0f);
+
+        carCrashAS.Play();
 
         StartCoroutine(SlowDownTimeCO());
     }
