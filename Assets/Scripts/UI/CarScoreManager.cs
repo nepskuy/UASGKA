@@ -8,6 +8,7 @@ public class CarScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreText; // Referensi ke komponen TextMeshProUGUI untuk menampilkan skor
 
     private float distanceTraveled = 0; // Jarak tempuh pemain
+    private bool isGameOver = false; // Status untuk mengetahui apakah permainan sudah berakhir
 
     void Start()
     {
@@ -25,6 +26,11 @@ public class CarScoreManager : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver)
+        {
+            return; // Jika permainan sudah berakhir, tidak update skor
+        }
+
         if (player != null && scoreText != null)
         {
             // Update jarak tempuh berdasarkan posisi Z pemain
@@ -41,12 +47,15 @@ public class CarScoreManager : MonoBehaviour
 
     public void AddScore(int value)
     {
-        currentScore += value;
-        if (scoreText != null)
+        if (!isGameOver) // Hanya tambahkan skor jika game belum berakhir
         {
-            scoreText.text = "Score: " + currentScore.ToString();
+            currentScore += value;
+            if (scoreText != null)
+            {
+                scoreText.text = "Score: " + currentScore.ToString();
+            }
+            Debug.Log("Added Score: " + value + " Total Score: " + currentScore);
         }
-        Debug.Log("Added Score: " + value + " Total Score: " + currentScore);
     }
 
     public void ResetScore()
@@ -63,5 +72,12 @@ public class CarScoreManager : MonoBehaviour
     public int GetScore()
     {
         return currentScore;
+    }
+
+    // Fungsi ini bisa dipanggil saat mobil meledak
+    public void GameOver()
+    {
+        isGameOver = true; // Set status game over
+        Debug.Log("Game Over! Final Score: " + currentScore);
     }
 }
