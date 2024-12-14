@@ -107,30 +107,33 @@ public class CarHandler : MonoBehaviour
     }
 
     void Steer()
+{
+    if (Mathf.Abs(input.x) > 0)
     {
-        if (Mathf.Abs(input.x) > 0)
-        {
-            // Gerakkan mobil ke samping
-            float speedBaseSteerLimit = rb.velocity.z / maxForwardVelocity;
-            speedBaseSteerLimit = Mathf.Clamp01(speedBaseSteerLimit);
+        // Gerakkan mobil ke samping
+        float speedBaseSteerLimit = rb.velocity.z / maxForwardVelocity;
+        speedBaseSteerLimit = Mathf.Clamp01(speedBaseSteerLimit);
 
-            rb.AddForce(rb.transform.right * steeringMultiplier * input.x * speedBaseSteerLimit);
+        // Kurangi gaya steering agar tidak terlalu berat
+        float steeringForce = steeringMultiplier * input.x * speedBaseSteerLimit;
+        rb.AddForce(rb.transform.right * steeringForce);
 
-            // Normalisasi kecepatan sumbu X
-            float normalizedX = rb.velocity.x / maxSteerVelocity;
+        // Normalisasi kecepatan sumbu X untuk menghindari pergerakan terlalu cepat
+        float normalizedX = rb.velocity.x / maxSteerVelocity;
 
-            // Pastikan nilai tidak lebih dari -1 hingga 1
-            normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f);
+        // Pastikan nilai tidak lebih dari -1 hingga 1
+        normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f);
 
-            // Pastikan kecepatan belok tetap dalam batas
-            rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);
-        }
-        else
-        {
-            // Otomatis luruskan mobil
-            rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 3);
-        }
+        // Pastikan kecepatan belok tetap dalam batas
+        rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);
     }
+    else
+    {
+        // Otomatis luruskan mobil lebih halus
+        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 2); // Mengurangi kecepatan pada sumbu X secara lebih halus
+    }
+}
+
 
     void UpdateCarAudio()
     {
