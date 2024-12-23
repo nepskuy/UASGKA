@@ -1583,7 +1583,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad790550969aa3541b2fa29f51465350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   rb: {fileID: 1921746075}
+  gameModel: {fileID: 0}
+  carMeshesRender: []
+  explodeHandler: {fileID: 0}
+  carEngineAS: {fileID: 0}
+  carPitchAnimationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  carCrashAS: {fileID: 0}
+  cameraController: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!54 &1921746075
 Rigidbody:
   m_ObjectHideFlags: 0
