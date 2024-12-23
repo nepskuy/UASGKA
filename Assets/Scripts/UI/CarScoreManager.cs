@@ -6,16 +6,33 @@ public class CarScoreManager : MonoBehaviour
     public int currentScore = 0; // Skor yang akan ditampilkan di UI
     public Transform player; // Referensi ke mobil pemain
     public TextMeshProUGUI scoreText; // Referensi ke komponen TextMeshProUGUI untuk menampilkan skor
+    public TextMeshProUGUI highestScoreText; // UI untuk menampilkan skor tertinggi
 
     private float distanceTraveled = 0; // Jarak tempuh pemain
     private bool isGameOver = false; // Status untuk mengetahui apakah permainan sudah berakhir
+    private int highestScore = 0; // Skor tertinggi
+    private string highScoreKey = "HighScore"; // Key untuk menyimpan skor tertinggi di PlayerPrefs
 
     void Start()
     {
-        // Pastikan player dan scoreText sudah terhubung dengan benar di inspector
+        // Ambil skor tertinggi yang tersimpan
+        highestScore = PlayerPrefs.GetInt(highScoreKey, 0);
+
+        // Tampilkan skor tertinggi di UI
+        if (highestScoreText != null)
+        {
+            highestScoreText.text = "Highest: " + highestScore.ToString();
+        }
+
+        // Validasi referensi
         if (scoreText == null)
         {
             Debug.LogError("scoreText is not assigned!");
+        }
+
+        if (highestScoreText == null)
+        {
+            Debug.LogError("highestScoreText is not assigned!");
         }
 
         if (player == null)
@@ -45,16 +62,28 @@ public class CarScoreManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int value)
+    public void GameOver()
     {
-        if (!isGameOver) // Hanya tambahkan skor jika game belum berakhir
+        isGameOver = true; // Set status game over
+        CheckAndUpdateHighScore();
+        Debug.Log("Game Over! Final Score: " + currentScore);
+    }
+
+    private void CheckAndUpdateHighScore()
+    {
+        // Cek apakah skor saat ini lebih tinggi dari skor tertinggi
+        if (currentScore > highestScore)
         {
-            currentScore += value;
-            if (scoreText != null)
+            highestScore = currentScore;
+            PlayerPrefs.SetInt(highScoreKey, highestScore); // Simpan skor tertinggi
+
+            // Update UI skor tertinggi
+            if (highestScoreText != null)
             {
-                scoreText.text = "Score: " + currentScore.ToString();
+                highestScoreText.text = "Highest: " + highestScore.ToString();
             }
-            Debug.Log("Added Score: " + value + " Total Score: " + currentScore);
+
+            Debug.Log("New High Score: " + highestScore);
         }
     }
 
@@ -74,10 +103,14 @@ public class CarScoreManager : MonoBehaviour
         return currentScore;
     }
 
-    // Fungsi ini bisa dipanggil saat mobil meledak
-    public void GameOver()
+    public void ResetHighScore()
     {
-        isGameOver = true; // Set status game over
-        Debug.Log("Game Over! Final Score: " + currentScore);
+        highestScore = 0;
+        PlayerPrefs.SetInt(highScoreKey, 0); // Reset skor tertinggi di PlayerPrefs
+        if (highestScoreText != null)
+        {
+            highestScoreText.text = "Highest: 0"; // Reset teks di UI
+        }
+        Debug.Log("High Score reset to 0.");
     }
 }
