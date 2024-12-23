@@ -4,7 +4,7 @@ using UnityEngine;
 public class CarHandler : MonoBehaviour
 {
     [SerializeField]
-    private bool isPlayer = false; // Set to true if this car belongs to the player.
+    private bool isPlayer = false; 
 
     [SerializeField]
     Rigidbody rb;
@@ -30,32 +30,32 @@ public class CarHandler : MonoBehaviour
 
     [Header("Game Management")]
     [SerializeField]
-    private MonoBehaviour cameraController; // Script untuk mengontrol kamera (bisa Cinemachine atau script custom)
+    private MonoBehaviour cameraController; 
 
     [SerializeField]
-    private GameManager gameManager; // Referensi ke GameManager untuk menghentikan skor
+    private GameManager gameManager;
 
-    // Maksimal nilai
+    
     float maxSteerVelocity = 2f;
     float maxForwardVelocity = 30f;
-    float accelerationMultiplier = 0.5f; // Akselerasi bertahap
+    float accelerationMultiplier = 0.5f;
     float steeringMultiplier = 5f;
     float carMaxSpeedPercentage = 0;
 
     Vector2 input = Vector2.zero;
 
-    // Emissive Properties
+    
     int _emissionColor = Shader.PropertyToID("_EmissionColor");
     Color emissiveColor = Color.white;
     float emissiveColorMultiplier = 0f;
 
-    // Kondisi permainan
+    
     bool isExploded = false;
-    bool isGameStarted = false; // Menunggu pemain menekan spasi
+    bool isGameStarted = false; 
 
     public void StartGame()
     {
-        isGameStarted = true; // Mulai permainan
+        isGameStarted = true; 
         if (isGameStarted)
             carEngineAS.Play();
     }
@@ -68,10 +68,10 @@ public class CarHandler : MonoBehaviour
             return;
         }
 
-        // Rotate car model saat belok
+    
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
 
-        // Update emissive properties
+    
         if (carMeshesRender != null)
         {
             foreach (var carMesh in carMeshesRender)
@@ -85,21 +85,20 @@ public class CarHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Tidak melakukan apa-apa jika permainan belum dimulai
+
         if (!isGameStarted || isExploded) return;
 
-        // Akselerasi otomatis
+       
         Accelerate();
 
-        // Steering (Belok)
+       
         Steer();
     }
 
     void Accelerate()
     {
-        rb.drag = 0; // Hilangkan drag
+        rb.drag = 0; 
 
-        // Pastikan kecepatan tidak melebihi batas maksimum
         if (rb.velocity.z < maxForwardVelocity)
         {
             rb.AddForce(rb.transform.forward * accelerationMultiplier, ForceMode.Acceleration);
@@ -110,27 +109,21 @@ public class CarHandler : MonoBehaviour
 {
     if (Mathf.Abs(input.x) > 0)
     {
-        // Gerakkan mobil ke samping
+       
         float speedBaseSteerLimit = rb.velocity.z / maxForwardVelocity;
         speedBaseSteerLimit = Mathf.Clamp01(speedBaseSteerLimit);
 
-        // Kurangi gaya steering agar tidak terlalu berat
         float steeringForce = steeringMultiplier * input.x * speedBaseSteerLimit;
         rb.AddForce(rb.transform.right * steeringForce);
 
-        // Normalisasi kecepatan sumbu X untuk menghindari pergerakan terlalu cepat
         float normalizedX = rb.velocity.x / maxSteerVelocity;
-
-        // Pastikan nilai tidak lebih dari -1 hingga 1
         normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f);
-
-        // Pastikan kecepatan belok tetap dalam batas
         rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);
     }
     else
     {
-        // Otomatis luruskan mobil lebih halus
-        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 2); // Mengurangi kecepatan pada sumbu X secara lebih halus
+        
+        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 2); 
     }
 }
 
@@ -161,7 +154,7 @@ public class CarHandler : MonoBehaviour
 
     IEnumerator SlowDownTimeCO()
     {
-       // Perlambat waktu sedikit untuk memberikan efek
+
     while (Time.timeScale > 0.2f)
     {
         Time.timeScale -= Time.deltaTime * 2;
@@ -170,7 +163,7 @@ public class CarHandler : MonoBehaviour
 
     yield return new WaitForSeconds(0.5f);
 
-    // Kembalikan waktu ke normal setelah beberapa saat
+    
     while (Time.timeScale < 1.0f)
     {
         Time.timeScale += Time.deltaTime;
@@ -184,45 +177,43 @@ public class CarHandler : MonoBehaviour
     {
         Debug.Log($"Hit {collision.collider.name}");
 
-    // Mengeksekusi ledakan
+ 
     Vector3 velocity = rb.velocity;
-    explodeHandler.Explode(velocity * 45); // Panggil explode di sini
+    explodeHandler.Explode(velocity * 45); 
 
-    isExploded = true; // Menandakan bahwa mobil telah meledak
+    isExploded = true; 
 
-    // Hentikan kamera mengikuti mobil, tapi jangan menghentikan seluruh permainan
+   
     if (cameraController != null)
     {
         var virtualCamera = cameraController.GetComponent<Cinemachine.CinemachineVirtualCamera>();
         if (virtualCamera != null)
         {
-            // Menyimpan posisi kamera sebelum tabrakan
+           
             Vector3 cameraPosition = virtualCamera.transform.position;
-            virtualCamera.Follow = null; // Hentikan mengikuti mobil
-            virtualCamera.LookAt = null; // Hentikan melihat mobil
-
-            // Menetapkan posisi kamera agar tetap di posisi tabrakan
+            virtualCamera.Follow = null; 
+            virtualCamera.LookAt = null; 
+           
             virtualCamera.transform.position = cameraPosition;
-            virtualCamera.transform.rotation = Quaternion.identity; // Set rotasi jika perlu
+            virtualCamera.transform.rotation = Quaternion.identity; 
 
-            // Nonaktifkan sementara jika ingin mencegah pergerakan lebih lanjut
+           
             virtualCamera.enabled = false;
         }
     }
 
-    // Hentikan suara mesin dan skid
+   
     FadeOutCarAudio();
-    carEngineAS.Stop(); // Menambahkan untuk mematikan suara mesin saat tabrakan
+    carEngineAS.Stop(); 
 
-    // Mainkan efek suara tabrakan
+    
     carCrashAS.volume = Mathf.Clamp(carMaxSpeedPercentage, 0.25f, 1.0f);
     carCrashAS.pitch = Mathf.Clamp(carMaxSpeedPercentage, 0.3f, 1.0f);
     carCrashAS.Play();
 
-    // Panggil GameOver() untuk memberitahu CarScoreManager
+    
     FindObjectOfType<CarScoreManager>().GameOver();
 
-    // Matikan hanya efek kecepatan waktu, bukan seluruh permainan
     StartCoroutine(SlowDownTimeCO());
     }
 }

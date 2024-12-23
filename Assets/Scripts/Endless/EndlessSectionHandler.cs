@@ -6,13 +6,13 @@ public class EndlessSectionHandler : MonoBehaviour
 {
     Transform playerCarTransform;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;    
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         float distanceToPlayer = transform.position.z - playerCarTransform.position.z;
