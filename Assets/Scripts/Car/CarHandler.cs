@@ -1,61 +1,60 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarHandler : MonoBehaviour
 {
     [SerializeField]
-    private bool isPlayer = false; 
+    private bool isPlayer = false;
 
     [SerializeField]
-    Rigidbody rb;
+    private Rigidbody rb;
 
     [SerializeField]
-    Transform gameModel;
+    private Transform gameModel;
 
     [SerializeField]
-    MeshRenderer[] carMeshesRender;
+    private MeshRenderer[] carMeshesRender;
 
     [SerializeField]
-    ExplodeHandler explodeHandler;
+    private ExplodeHandler explodeHandler;
 
     [Header("SFX")]
     [SerializeField]
-    AudioSource carEngineAS;
+    private AudioSource carEngineAS;
 
     [SerializeField]
-    AnimationCurve carPitchAnimationCurve;
+    private AnimationCurve carPitchAnimationCurve;
 
     [SerializeField]
-    AudioSource carCrashAS;
+    private AudioSource carCrashAS;
 
     [Header("Game Management")]
     [SerializeField]
-    private MonoBehaviour cameraController; 
+    private MonoBehaviour cameraController;
 
     [SerializeField]
     private GameManager gameManager;
 
-    
-    float maxSteerVelocity = 2f;
-    float maxForwardVelocity = 30f;
-    float accelerationMultiplier = 0.5f;
-    float steeringMultiplier = 5f;
-    float carMaxSpeedPercentage = 0;
+    [Header("Life Count UI")]
+    [SerializeField]
+    private RawImage[] lifeImages; // Array untuk menyimpan 3 gambar life count
 
-    Vector2 input = Vector2.zero;
+    private float maxSteerVelocity = 2f;
+    private float maxForwardVelocity = 30f;
+    private float accelerationMultiplier = 0.5f;
+    private float steeringMultiplier = 5f;
 
-    
-    int _emissionColor = Shader.PropertyToID("_EmissionColor");
-    Color emissiveColor = Color.white;
-    float emissiveColorMultiplier = 0f;
+    private Vector2 input = Vector2.zero;
 
-    
-    bool isExploded = false;
-    bool isGameStarted = false; 
+    private int collisionCount = 0; // Hitungan tabrakan
+    private bool isExploded = false;
+    private bool isGameStarted = false;
+    private bool isInvincible = false; // Status tidak bisa ditabrak
 
     public void StartGame()
     {
-        isGameStarted = true; 
+        isGameStarted = true;
         if (isGameStarted)
             carEngineAS.Play();
     }
@@ -68,36 +67,20 @@ public class CarHandler : MonoBehaviour
             return;
         }
 
-    
-        gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
-
-    
-        if (carMeshesRender != null)
-        {
-            foreach (var carMesh in carMeshesRender)
-            {
-                carMesh.material.SetColor(_emissionColor, emissiveColor * emissiveColorMultiplier);
-            }
-        }
-
         UpdateCarAudio();
     }
 
     private void FixedUpdate()
     {
-
         if (!isGameStarted || isExploded) return;
 
-       
         Accelerate();
-
-       
         Steer();
     }
 
     void Accelerate()
     {
-        rb.drag = 0; 
+        rb.drag = 0;
 
         if (rb.velocity.z < maxForwardVelocity)
         {
@@ -106,114 +89,162 @@ public class CarHandler : MonoBehaviour
     }
 
     void Steer()
-{
-    if (Mathf.Abs(input.x) > 0)
     {
-       
-        float speedBaseSteerLimit = rb.velocity.z / maxForwardVelocity;
-        speedBaseSteerLimit = Mathf.Clamp01(speedBaseSteerLimit);
+        if (Mathf.Abs(input.x) > 0)
+        {
+            float steeringForce = (steeringMultiplier * input.x) / 2.0f;
+            rb.AddForce(rb.transform.right * steeringForce);
 
-        float steeringForce = steeringMultiplier * input.x * speedBaseSteerLimit;
-        rb.AddForce(rb.transform.right * steeringForce);
-
-        float normalizedX = rb.velocity.x / maxSteerVelocity;
-        normalizedX = Mathf.Clamp(normalizedX, -1.0f, 1.0f);
-        rb.velocity = new Vector3(normalizedX * maxSteerVelocity, 0, rb.velocity.z);
+            float normalizedX = Mathf.Clamp(rb.velocity.x, -maxSteerVelocity / 2.0f, maxSteerVelocity / 2.0f);
+            rb.velocity = new Vector3(normalizedX, rb.velocity.y, rb.velocity.z);
+        }
     }
-    else
-    {
-        
-        rb.velocity = Vector3.Lerp(rb.velocity, new Vector3(0, 0, rb.velocity.z), Time.fixedDeltaTime * 2); 
-    }
-}
-
 
     void UpdateCarAudio()
     {
         if (!isGameStarted)
             return;
 
-        carMaxSpeedPercentage = rb.velocity.z / maxForwardVelocity;
-
-        carEngineAS.pitch = carPitchAnimationCurve.Evaluate(carMaxSpeedPercentage);
+        carEngineAS.pitch = carPitchAnimationCurve.Evaluate(rb.velocity.z / maxForwardVelocity);
     }
 
     void FadeOutCarAudio()
     {
-        if (!isPlayer)
-        return;
+        if (!isPlayer) return;
 
         carEngineAS.volume = Mathf.Lerp(carEngineAS.volume, 0, Time.deltaTime * 10);
     }
 
     public void SetInput(Vector2 inputVector)
     {
-        inputVector.Normalize();
         input = inputVector;
-    }
-
-    IEnumerator SlowDownTimeCO()
-    {
-
-    while (Time.timeScale > 0.2f)
-    {
-        Time.timeScale -= Time.deltaTime * 2;
-        yield return null;
-    }
-
-    yield return new WaitForSeconds(0.5f);
-
-    
-    while (Time.timeScale < 1.0f)
-    {
-        Time.timeScale += Time.deltaTime;
-        yield return null;
-    }
-
-    Time.timeScale = 1.0f;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Hit {collision.collider.name}");
+        if (isInvincible) return;
 
- 
-    Vector3 velocity = rb.velocity;
-    explodeHandler.Explode(velocity * 45); 
-
-    isExploded = true; 
-
-   
-    if (cameraController != null)
-    {
-        var virtualCamera = cameraController.GetComponent<Cinemachine.CinemachineVirtualCamera>();
-        if (virtualCamera != null)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-           
-            Vector3 cameraPosition = virtualCamera.transform.position;
-            virtualCamera.Follow = null; 
-            virtualCamera.LookAt = null; 
-           
-            virtualCamera.transform.position = cameraPosition;
-            virtualCamera.transform.rotation = Quaternion.identity; 
+            collisionCount++;
 
-           
-            virtualCamera.enabled = false;
+            UpdateLifeUI();
+
+            if (collisionCount < 3)
+            {
+                StartCoroutine(HandleBlinkEffect());
+            }
+            else if (collisionCount == 3)
+            {
+                ExplodeCar();
+            }
         }
     }
 
-   
-    FadeOutCarAudio();
-    carEngineAS.Stop(); 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("HealthCapsule"))
+        {
+            AddHealth(); // Tambahkan health
+            Destroy(other.gameObject); // Hapus capsule setelah diambil
+        }
+    }
 
-    
-    carCrashAS.volume = Mathf.Clamp(carMaxSpeedPercentage, 0.25f, 1.0f);
-    carCrashAS.pitch = Mathf.Clamp(carMaxSpeedPercentage, 0.3f, 1.0f);
-    carCrashAS.Play();
+    private void UpdateLifeUI()
+    {
+        if (collisionCount - 1 < lifeImages.Length)
+        {
+            lifeImages[collisionCount - 1].enabled = false;
+        }
+    }
 
-    
-    FindObjectOfType<CarScoreManager>().GameOver();
+    private void AddHealth()
+    {
+        // Tambahkan health jika belum penuh
+        if (collisionCount > 0)
+        {
+            collisionCount--;
+            if (collisionCount < lifeImages.Length)
+            {
+                lifeImages[collisionCount].enabled = true;
+            }
+        }
+    }
 
-    StartCoroutine(SlowDownTimeCO());
+    private IEnumerator HandleBlinkEffect()
+    {
+        Debug.Log($"Collision {collisionCount}. Blinker activated.");
+
+        isInvincible = true;
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
+        float originalDrag = rb.drag;
+        rb.drag = 10f;
+
+        float blinkDuration = 3f;
+        float blinkInterval = 0.2f;
+        float timer = 0;
+
+        while (timer < blinkDuration)
+        {
+            foreach (var mesh in carMeshesRender)
+            {
+                mesh.enabled = !mesh.enabled;
+            }
+            yield return new WaitForSeconds(blinkInterval);
+            timer += blinkInterval;
+        }
+
+        foreach (var collider in colliders)
+        {
+            collider.enabled = true;
+        }
+
+        foreach (var mesh in carMeshesRender)
+        {
+            mesh.enabled = true;
+        }
+
+        rb.drag = originalDrag;
+
+        isInvincible = false;
+        Debug.Log("Blinker deactivated. Car is vulnerable again.");
+    }
+
+    private void ExplodeCar()
+    {
+        Debug.Log("Car exploded!");
+        isExploded = true;
+
+        Vector3 velocity = rb.velocity;
+        explodeHandler.Explode(velocity * 45);
+
+        if (cameraController != null)
+        {
+            var virtualCamera = cameraController.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            if (virtualCamera != null)
+            {
+                Vector3 cameraPosition = virtualCamera.transform.position;
+                virtualCamera.Follow = null;
+                virtualCamera.LookAt = null;
+
+                virtualCamera.transform.position = cameraPosition;
+                virtualCamera.transform.rotation = Quaternion.identity;
+
+                virtualCamera.enabled = false;
+            }
+        }
+
+        FadeOutCarAudio();
+        carEngineAS.Stop();
+
+        carCrashAS.Play();
+
+        FindObjectOfType<CarScoreManager>().GameOver();
     }
 }

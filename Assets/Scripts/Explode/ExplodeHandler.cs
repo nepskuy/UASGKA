@@ -5,21 +5,20 @@ using UnityEngine;
 public class ExplodeHandler : MonoBehaviour
 {
     [SerializeField]
-    GameObject originalObject;
+    private GameObject originalObject;
 
     [SerializeField]
-    GameObject model;
+    private GameObject model;
 
-    Rigidbody[] rigidbodies;
+    [SerializeField]
+    private int collisionThreshold = 3; // Jumlah tabrakan sebelum meledak
+
+    private Rigidbody[] rigidbodies;
+    private int collisionCount = 0; // Hitungan tabrakan
 
     private void Awake()
     {
         rigidbodies = model.GetComponentsInChildren<Rigidbody>(true);
-    }
-
-    private void Start() 
-    {
-        
     }
 
     public void Explode(Vector3 externalForce)
@@ -38,5 +37,21 @@ public class ExplodeHandler : MonoBehaviour
             rb.AddTorque(Random.insideUnitSphere * 0.5f, ForceMode.Impulse);
         }
     }
-    
+
+    public bool HandleCollision(Collision collision, Vector3 velocity)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            collisionCount++;
+            Debug.Log($"Collision Count: {collisionCount}");
+
+            if (collisionCount >= collisionThreshold)
+            {
+                Explode(velocity * 45);
+                return true; // Menandakan mobil telah meledak
+            }
+        }
+
+        return false; // Mobil belum meledak
+    }
 }
