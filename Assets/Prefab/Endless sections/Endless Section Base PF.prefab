@@ -868,6 +868,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: streetlight
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: daad6973ef4d1124e8db8640b092063f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -923,6 +928,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: building_H (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814406243937114398, guid: 2e87b2d8298a6fa41b3c0f3cc048c58a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 5304084035805053860, guid: 2e87b2d8298a6fa41b3c0f3cc048c58a,
         type: 3}
@@ -1480,6 +1490,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fence_pillar
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc73899add51bef4aa1bcc67ea126057,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1568,6 +1583,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: building_D
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 988a1f6d9d1006348a3e095f9c4c2b27,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2101,6 +2121,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pumpkin_orange_jackolantern
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f3ad8526cc3c3984d81ce2344cb4a044,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2221,6 +2246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fence_gate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b01fc88300c65ed4e8c4b775bde55e93,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2772,6 +2802,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: building_H (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4814406243937114398, guid: 2e87b2d8298a6fa41b3c0f3cc048c58a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 5304084035805053860, guid: 2e87b2d8298a6fa41b3c0f3cc048c58a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2905,6 +2940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fence_seperate (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 664b0dec7c81e204fa00424089a6b6c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3397,6 +3437,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3502,6 +3547,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: car_hatchback (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc5bbc80fb4d005468dd8f6853a57cd1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3735,6 +3785,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: coffin_decorated (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 562533b1db7acbb49b454b53d1417f59,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3850,6 +3905,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fence_seperate (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 664b0dec7c81e204fa00424089a6b6c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4082,6 +4142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: car_hatchback (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc5bbc80fb4d005468dd8f6853a57cd1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4434,6 +4499,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5094,6 +5164,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: car_stationwagon
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 47857d48cb277314a90f562d36861d45,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5664,6 +5739,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: coffin_decorated (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 562533b1db7acbb49b454b53d1417f59,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5769,6 +5849,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5890,6 +5975,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: coffin_decorated (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 562533b1db7acbb49b454b53d1417f59,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6228,6 +6318,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: car_taxi
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 709c1042d7ebab94fa1c2d096f8f269c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6656,6 +6751,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: crypt (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6a06cdfb48f4e484c8fd728ccd662c8c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6710,7 +6810,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 47857d48cb277314a90f562d36861d45,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.17
+      value: -0.162
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 47857d48cb277314a90f562d36861d45,
         type: 3}
@@ -7098,6 +7198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: building_A_withoutBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8a412a3850f319348809f01bad89d592,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7499,6 +7604,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7730,6 +7840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bone_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 01b77ab8ab5ccbd4caec492dd5861512,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7989,6 +8104,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: lantern_standing
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 51d6a7392f3955845b7bc2e5ee3a86b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8542,6 +8662,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8722,6 +8847,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8837,6 +8967,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gravemarker_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 546d6a6fe6fa33d4db27d1565c325711,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9339,6 +9474,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: box_B
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7703648dbee8f6f409565cb362544180,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9776,6 +9916,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_dead_large_decorated PF
       objectReference: {fileID: 0}
+    - target: {fileID: 5543701487478866212, guid: 0504042265b3ae4498873fd73a2dc6a7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10082,6 +10227,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10187,6 +10337,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bone_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0d4690ef5c42100419841503b81ede32,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10404,6 +10559,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bench
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 774b6fe213947ab43bcabc7f1817f904,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10847,6 +11007,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: crypt
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6a06cdfb48f4e484c8fd728ccd662c8c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10967,6 +11132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: shrine
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 819fe2fd0f800814caab1dc617687717,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11348,6 +11518,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11574,6 +11749,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: building_F (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73be92e530ea31449ca890083a2477e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11865,6 +12045,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tree_dead_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: faa97ae810ea41c42a1149c4e79a32b6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13061,6 +13246,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_pine_yellow_small PF (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5489940901488717275, guid: 2a88e33c8ff8e904c8a1dc069b2353c2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13672,6 +13862,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: box_A
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 888a4057b556e7a45a7f54c4d9efbee4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13792,6 +13987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: building_F
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73be92e530ea31449ca890083a2477e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14062,6 +14262,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_dead_large_decorated PF (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5543701487478866212, guid: 0504042265b3ae4498873fd73a2dc6a7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14168,6 +14373,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree_dead_large_decorated PF (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5543701487478866212, guid: 0504042265b3ae4498873fd73a2dc6a7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14273,6 +14483,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gravestone
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4ef6097c767b8b9459b5c17270ed3595,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
