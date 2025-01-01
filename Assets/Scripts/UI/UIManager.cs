@@ -7,8 +7,8 @@ public class UIManager : MonoBehaviour
     public GameObject scoreCanvas;
     public GameObject menuCanvas;
     public GameObject homeMenuCanvas;
-    public GameObject gameOverCanvas; // Game Over Canvas
-    public GameObject creditCanvas; // Credit Canvas
+    public GameObject gameOverCanvas; 
+    public GameObject creditCanvas; 
 
     public CarScoreManager carScoreManager;
     public GameObject playerCar;
@@ -22,9 +22,9 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         howToPlayCanvas.SetActive(false);
-        gameOverCanvas.SetActive(false); // Nonaktifkan Game Over Canvas di awal
-        menuCanvas.SetActive(false);    // Nonaktifkan Menu Canvas di awal
-        creditCanvas.SetActive(false);  // Nonaktifkan Credit Canvas di awal
+        gameOverCanvas.SetActive(false); 
+        menuCanvas.SetActive(false);    
+        creditCanvas.SetActive(false);
     }
 
     public void StartGame()
@@ -141,8 +141,8 @@ public class UIManager : MonoBehaviour
             carScoreManager.ResetScore();
         }
 
-        gameOverCanvas.SetActive(false); // Nonaktifkan Game Over Canvas saat restart
-        menuCanvas.SetActive(false);    // Nonaktifkan Menu Canvas saat restart
+        gameOverCanvas.SetActive(false); 
+        menuCanvas.SetActive(false);   
         Debug.Log("Scene loaded and game restarted...");
     }
 
@@ -159,26 +159,34 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameOver()
     {
-        gameOverCanvas.SetActive(true); // Tampilkan Game Over Canvas
-        menuCanvas.SetActive(true);    // Tampilkan Menu Canvas
-        scoreCanvas.SetActive(false);  // Sembunyikan score canvas (opsional)
+        gameOverCanvas.SetActive(true); 
+        menuCanvas.SetActive(false);  
+        scoreCanvas.SetActive(false); 
 
         Debug.Log("Game Over!");
     }
 
     public void ShowCredits()
     {
-        homeMenuCanvas.SetActive(false); // Sembunyikan Home Menu
-        creditCanvas.SetActive(true);   // Tampilkan Credit Canvas
+        homeMenuCanvas.SetActive(false); 
+        creditCanvas.SetActive(true);   
 
         Debug.Log("Credits shown.");
     }
 
     public void CloseCredits()
     {
-        creditCanvas.SetActive(false);  // Sembunyikan Credit Canvas
-        homeMenuCanvas.SetActive(true); // Kembali ke Home Menu
+        creditCanvas.SetActive(false);  
+        homeMenuCanvas.SetActive(true); 
 
         Debug.Log("Credits closed.");
+    }
+
+    public void PlayAgain()
+    {
+        Debug.Log("Play Again button clicked...");
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        StartCoroutine(WaitForSceneLoad());
     }
 }
